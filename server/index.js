@@ -21,12 +21,22 @@ const io=new Server(server,{
 
 // Listen
 io.on("connection",(socket)=>{
+
+  
   console.log(`User connected: ${socket.id}`)
 
   //join a room
   socket.on("join_room",(data)=>{
     socket.join(data);
-    socket.timeout(2000).to(data).emit("newUser",socket.id)
+    let num= io.sockets.adapter.rooms.get(data).size;
+    io.to(data).emit("Number",num)
+    if( socket.rooms.has(data)){
+    io.timeout(2000).to(data).emit("newUser",socket.id)
+    
+    }
+
+   
+
   });
 
   //broadcast listen message to everyone
@@ -35,10 +45,11 @@ io.on("connection",(socket)=>{
     socket.to(data.room).emit("receive_m",data);
   });
   
-  socket.on("disconnect",()=>{
-    console.log('User left:'+socket.id)
+
+  // socket.on("disconnect",()=>{
+  //   console.log('User left:'+socket.id)
    
-  });
+  // });
 });
 
 server.listen(3001,()=>{
