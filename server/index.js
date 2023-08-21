@@ -17,9 +17,7 @@ const io=new Server(server,{
   },
 });
 
-async function retrieveSockets(){
-  const connectedSockets=await io.fetchSockets();
-}
+
 
 // Listen
 io.on("connection",(socket)=>{
@@ -39,9 +37,10 @@ io.on("connection",(socket)=>{
   
   socket.on("disconnect",()=>{
     console.log('User left:'+socket.id)
+   
   });
 });
 
 server.listen(3001,()=>{
-  console.log('Hello World');
+  console.log('HelloChats');
 });
