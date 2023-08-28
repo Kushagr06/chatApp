@@ -31,14 +31,14 @@ io.on("connection",(socket)=>{
   var room_no;
   var user_no;
 
-  socket.on("join_room",(data)=>{
+  socket.on("join_room",(data,name)=>{
+    console.log(name)
     socket.join(data);
     room_no=data
     user_no= io.sockets.adapter.rooms.get(data).size;
     io.to(data).emit("Number",user_no)
     if( socket.rooms.has(data)){
-    io.timeout(2000).to(data).emit("newUser",socket.id)
-    
+    io.timeout(2000).to(data).emit("newUser",socket.id,name)
     }
 
    
