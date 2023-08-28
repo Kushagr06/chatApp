@@ -26,9 +26,14 @@ io.on("connection",(socket)=>{
   console.log(`User connected: ${socket.id}`)
 
   //join a room
+  
+  
+  var room_no;
+
   socket.on("join_room",(data)=>{
     socket.join(data);
-    let num= io.sockets.adapter.rooms.get(data).size;
+    room_no=data
+    num= io.sockets.adapter.rooms.get(data).size;
     io.to(data).emit("Number",num)
     if( socket.rooms.has(data)){
     io.timeout(2000).to(data).emit("newUser",socket.id)
@@ -39,18 +44,24 @@ io.on("connection",(socket)=>{
 
   });
 
+ 
   //broadcast listen message to everyone
   socket.on("send_m",(data) =>{
     // socket.broadcast.emit("receive_m",data)=>send everyone
+    console.log(data)
     socket.to(data.room).emit("receive_m",data);
   });
   
 
-  // socket.on("disconnect",()=>{
-  //   console.log('User left:'+socket.id)
+  socket.on("disconnect",()=>{
+    console.log(room_no)
+    console.log(socket.id+" has Disconnected")
+    socket.to(room_no).emit("disconnected_user",socket.id)
    
-  // });
+  });
+
 });
+
 
 server.listen(3001,()=>{
   console.log('HelloChats');
