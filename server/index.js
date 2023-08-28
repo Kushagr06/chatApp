@@ -29,12 +29,13 @@ io.on("connection",(socket)=>{
   
   
   var room_no;
+  var user_no;
 
   socket.on("join_room",(data)=>{
     socket.join(data);
     room_no=data
-    num= io.sockets.adapter.rooms.get(data).size;
-    io.to(data).emit("Number",num)
+    user_no= io.sockets.adapter.rooms.get(data).size;
+    io.to(data).emit("Number",user_no)
     if( socket.rooms.has(data)){
     io.timeout(2000).to(data).emit("newUser",socket.id)
     
@@ -56,7 +57,7 @@ io.on("connection",(socket)=>{
   socket.on("disconnect",()=>{
     console.log(room_no)
     console.log(socket.id+" has Disconnected")
-    socket.to(room_no).emit("disconnected_user",socket.id)
+    socket.to(room_no).emit("disconnected_user",socket.id,--user_no)
    
   });
 
