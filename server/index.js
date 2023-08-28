@@ -30,9 +30,10 @@ io.on("connection",(socket)=>{
   
   var room_no;
   var user_no;
+  var user_name;
 
   socket.on("join_room",(data,name)=>{
-    console.log(name)
+    user_name=name;
     socket.join(data);
     room_no=data
     user_no= io.sockets.adapter.rooms.get(data).size;
@@ -49,7 +50,7 @@ io.on("connection",(socket)=>{
   //broadcast listen message to everyone
   socket.on("send_m",(data) =>{
     // socket.broadcast.emit("receive_m",data)=>send everyone
-    console.log(data)
+    // console.log(data)
     socket.to(data.room).emit("receive_m",data);
   });
   
@@ -57,7 +58,7 @@ io.on("connection",(socket)=>{
   socket.on("disconnect",()=>{
     console.log(room_no)
     console.log(socket.id+" has Disconnected")
-    socket.to(room_no).emit("disconnected_user",socket.id,--user_no)
+    socket.to(room_no).emit("disconnected_user",socket.id,user_name,--user_no)
    
   });
 
