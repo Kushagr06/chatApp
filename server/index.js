@@ -53,6 +53,11 @@ io.on("connection",(socket)=>{
     // console.log(data)
     socket.to(data.room).emit("receive_m",data);
   });
+
+  socket.on("download_chats",(name)=>{
+    console.log(`User ${name} downloaded the chats`)
+    io.timeout(1000).to(room_no).emit("downloading_chats",name)
+  });
   
 
   socket.on("disconnect",()=>{
@@ -66,5 +71,5 @@ io.on("connection",(socket)=>{
 
 
 server.listen(3001,()=>{
-  console.log('HelloChats');
+  console.log('Now Active');
 });
