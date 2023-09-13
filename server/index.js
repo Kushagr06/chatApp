@@ -60,7 +60,7 @@ io.on("connection",(socket)=>{
 
   socket.on("download_chats",(name)=>{
     console.log(`User ${name} downloaded the chats`)
-    io.timeout(1000).broadcast.emit("downloading_chats",name)
+    io.timeout(1000).broadcast("downloading_chats",name)
   });
   
 
