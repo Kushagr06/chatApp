@@ -34,12 +34,16 @@ io.on("connection",(socket)=>{
 
   socket.on("join_room",(data,name)=>{
     user_name=name;
+    if(room_no!=data && room_no!=''){
+      socket.to(room_no).emit("disconnected_user",socket.id,user_name,--user_no)
     socket.join(data);
     room_no=data
     user_no= io.sockets.adapter.rooms.get(data).size;
+    
     io.to(data).emit("Number",user_no)
     if( socket.rooms.has(data)){
     io.timeout(2000).to(data).emit("newUser",socket.id,name)
+    }
     }
 
    
@@ -56,12 +60,12 @@ io.on("connection",(socket)=>{
 
   socket.on("download_chats",(name)=>{
     console.log(`User ${name} downloaded the chats`)
-    io.timeout(1000).to(room_no).emit("downloading_chats",name)
+    io.timeout(1000).broadcast.emit("downloading_chats",name)
   });
   
 
-  socket.on("disconnect",()=>{
-    console.log(room_no)
+  socket.on("disconnecting",()=>{
+    // console.log(room_no)
     console.log(socket.id+" has Disconnected")
     socket.to(room_no).emit("disconnected_user",socket.id,user_name,--user_no)
    
