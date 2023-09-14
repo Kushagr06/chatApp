@@ -35,7 +35,8 @@ io.on("connection",(socket)=>{
   socket.on("join_room",(data,name)=>{
     user_name=name;
     if(room_no!=data && room_no!=''){
-      socket.to(room_no).emit("disconnected_user",socket.id,user_name,--user_no)
+      socket.emit("clear_chats");
+      socket.to(room_no).emit("disconnected_user",socket.id,user_name,--user_no);
     socket.join(data);
     room_no=data
     user_no= io.sockets.adapter.rooms.get(data).size;
