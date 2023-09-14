@@ -1,4 +1,4 @@
-# Realtime ChatApp using ReactJs, ExpressJs and socket.io
+# SneakChat-Realtime ChatApp using ReactJs, ExpressJs and socket.io
 ## Using Socket.io and ExpressJs as backend and ReactJs with TailwindCSS as frontend, I have created a realtime secret chat application. In this app, participants are required to join the correct chat-room in order to communicate with each other. The app tracks the number of people in the room, their IDs and the participants that join and leave the session. 
 ### Associated Images:
 ![images1](https://github.com/Kushagr06/chatApp/assets/75263274/7475509a-c662-42be-98ec-629b9d4a9fd9)
