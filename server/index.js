@@ -1,8 +1,11 @@
 const express=require('express')
 const app=express();
 const http=require('http');
+require('dotenv').config()
 const {Server}=require('socket.io');
 const cors=require("cors");
+const PORT=process.env.PORT||3001
+const FRONT=process.env.FRONT 
 
 // First the the points connect, the message is sent from front to back and then from back to front(broadcast)
 
@@ -12,7 +15,7 @@ const server=http.createServer(app);
 
 const io=new Server(server,{
   cors:{
-    origin:"http://localhost:3000",
+    origin:FRONT,
     methods:["GET","POST"],
   },
 });
@@ -77,6 +80,6 @@ io.on("connection",(socket)=>{
 });
 
 
-server.listen(3001,()=>{
-  console.log('Now Active');
+server.listen(PORT,()=>{
+  console.log('Now Active at '+FRONT);
 });
